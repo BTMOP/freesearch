@@ -32,15 +32,11 @@ class bordertile(object):
 
 class tile(object):
     '''class for tiles on the map. each tile has a population. sometimes it is water'''
-    def __init__(self, pop, loc, cen):
+    def __init__(self, pop, loc):
         '''initializes each tile with a location, a population, and a water state'''
         self.x = loc[0]
         self.y = loc[1]
-        #self.iswaterinit(cen)
         self.iswater = False
-        #no population if the tile is full of water
-        if self.iswater:
-            pop = [0, 0, 0]
         self.hum = pop[0]
         self.zom = pop[1]
         self.ded = pop[2]

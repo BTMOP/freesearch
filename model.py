@@ -22,7 +22,6 @@ class Grid:
             loc = [self.w-1, y]
             self.grid[self.w-1][y] = bordertile(loc)
         # fill it with tile objects
-        cen = [randint(1,50),randint(1,50)]
         for y in range(1, self.h-1):
             for x in range(1, self.w-1):
                 if randint(1,10000) <= 30:
@@ -32,7 +31,7 @@ class Grid:
                     zombies = 0
                 pop = [randint(1,100),zombies,0]
                 loc = [x,y]
-                self.grid[x][y] = tile(pop,loc,cen)
+                self.grid[x][y] = tile(pop,loc)
         for m in range(2):
             for y in range(1, self.h-1):
                 for x in range(1, self.w-1):
