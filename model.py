@@ -143,26 +143,3 @@ class Grid:
                 self.grid[x][y].popout()
                 self.grid[x][y].update()
         return
-
-
-##class Resources:
-##    def __init__(self, difficulty):
-##        # difficulty should be 1-5
-##        if difficulty < 1: difficulty = 1
-##        if difficulty > 5: difficulty = 5
-##        booty = 6 - int(difficulty)
-##        # input (difficulty): 1 = easiest, 5 = hardest
-##        # output (booty): 5 = most resources, 1 = least
-##
-##        # with great booty comes great numbers of armaments
-##        self.airstrikes = randint(1,10) * booty
-##        self.infantry = randint(5,20) * 50 * booty
-##
-##class Metadata:
-##    def __init__(self, data):
-##        self.days = 0 # number of days in the game that have passed
-##        self.initialHumans = data.totalHumans()
-##
-##    def update(self):
-##        # run each tick
-##        self.days += 1
