@@ -11,7 +11,7 @@ done = False
 clock = pygame.time.Clock()
 
 # initialize the map (size, num_targets)
-data = Grid(100,50)
+data = Grid(60,10)
 
 # init the view of the map
 view = View(600, data)
