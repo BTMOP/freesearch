@@ -45,7 +45,11 @@ while not done:
             drone.setMap(data)
             # move 'em
             direction = drone.nextStep()
+
+	    # 
             drone.setLocation(drone.x + direction[0], drone.y + direction[1])
+
+
             # maybe don't update map based on drone (denied comms)
             # TODO this *should* be simultaneous
             data = drone.update()
