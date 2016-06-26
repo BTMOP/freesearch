@@ -10,7 +10,7 @@ class bordertile(object):
         self.x = loc[0]
         self.y = loc[1]
         #border tiles are always water
-        self.iswater = True
+        self.isedge = True
         self.hum = 0
         self.zom = 0
         self.ded = 0
@@ -36,13 +36,13 @@ class tile(object):
         '''initializes each tile with a location, a population, and a water state'''
         self.x = loc[0]
         self.y = loc[1]
-        self.iswater = False
+        self.isedge = False
         self.hum = pop[0]
         self.zom = pop[1]
         self.ded = pop[2]
 
     def hzd(self):
-        if self.iswater:
+        if self.isedge:
             return [0, 0, 0]
         alpha = 1.3 # rate at which humans become zombies
         # (i.e. probability of being infected when you come in contact with the infected)
@@ -94,30 +94,21 @@ class tile(object):
         self.zom += int(step[1])
         self.ded += int(step[2])
 
-##    def iswaterinit(self, cen):
-##        '''on startup, determine whether or not this tile is water'''
-##        waterprob = abs(self.x - float(cen[0])) * abs(self.y - float(cen[1]))
-##        ran = random.randint(0, cen[0]*cen[1])
-##        if ran >= .3*waterprob:
-##            self.iswater = False
-##        if ran < .3*waterprob:
-##            self.iswater = True
-
     def findneighbors(self,tilegrid):
         '''once the entire grid is populated with tiles, find the neighbors'''
         self.left = tilegrid[self.x-1][self.y]
         self.up = tilegrid[self.x][self.y-1]
         self.down = tilegrid[self.x][self.y+1]
         self.right = tilegrid[self.x+1][self.y]
-        horiz = [self.left.iswater, self.right.iswater]
-        vert = [self.up.iswater, self.down.iswater]
+        horiz = [self.left.isedge, self.right.isedge]
+        vert = [self.up.isedge, self.down.isedge]
         #lowpass filter
         if horiz == [True, True] or vert == [True, True]:
-            if self.iswater == False:
-                self.iswater = True
+            if self.isedge == False:
+                self.isedge = True
         if horiz == [False, False] or vert == [False, False]:
-            if self.iswater == True:
-                self.iswater == False
+            if self.isedge == True:
+                self.isedge == False
 
         self.oldHzrat = self.hzrat()
         self.oldLeftHzrat = self.left.hzrat()
@@ -129,7 +120,7 @@ class tile(object):
 
     def popadd(self, pop):
         '''add population from people moving when neighbors run popout()'''
-        if not self.iswater:
+        if not self.isedge:
             self.hum += pop[0]
             self.zom += pop[1]
             self.ded += pop[2]
@@ -191,7 +182,7 @@ class tile(object):
 
     def color(self):
         '''generate a color for the tile. to be used in pygame'''
-        if self.iswater:
+        if self.isedge:
             return [105, 105, 105]
         else:
             red = int(5*self.zom)
