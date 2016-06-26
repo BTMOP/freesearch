@@ -19,9 +19,9 @@ data = Grid(size,targets)
 
 # define drones
 num_drones = 10
-drones = [Uav(random.randint(1,size-2), random.randint(1,size-2), data)]
+drones = [Uav(1, 1, data)]
 for m in range(num_drones-1):
-    drones.append(Uav(random.randint(1,size-2), random.randint(1,size-2), data))
+    drones.append(Uav(m+1, 1, data))
 
 # init the view of the map
 view = View(600, data, drones)
