@@ -94,14 +94,14 @@ class tile(object):
         self.zom += int(step[1])
         self.ded += int(step[2])
 
-    def iswaterinit(self, cen):
-        '''on startup, determine whether or not this tile is water'''
-        waterprob = abs(self.x - float(cen[0])) * abs(self.y - float(cen[1]))
-        ran = random.randint(0, cen[0]*cen[1])
-        if ran >= .3*waterprob:
-            self.iswater = False
-        if ran < .3*waterprob:
-            self.iswater = True
+##    def iswaterinit(self, cen):
+##        '''on startup, determine whether or not this tile is water'''
+##        waterprob = abs(self.x - float(cen[0])) * abs(self.y - float(cen[1]))
+##        ran = random.randint(0, cen[0]*cen[1])
+##        if ran >= .3*waterprob:
+##            self.iswater = False
+##        if ran < .3*waterprob:
+##            self.iswater = True
 
     def findneighbors(self,tilegrid):
         '''once the entire grid is populated with tiles, find the neighbors'''
