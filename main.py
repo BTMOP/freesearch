@@ -1,4 +1,5 @@
 import pygame
+import time
 from model import Grid
 from view import View
 
@@ -10,11 +11,16 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-# initialize the map
-data = Grid(50)
+# initialize the map (size, num_targets)
+data = Grid(100,50)
 
 # init the view of the map
 view = View(600, data)
+
+# temporary
+# TODO need to fix the data.update() for UAV movement
+# remove this when fixed
+time.sleep(10000)
 
 # max fps at which to run
 fps = 10

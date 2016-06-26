@@ -13,6 +13,8 @@ class View:
         self.screen = pygame.display.set_mode((w,h))
         pygame.display.set_caption("Alcatraz - Challenge 3")
 
+        self.update(grid)
+
     def update(self, data):
         self.screen.fill((255,255,255))
 

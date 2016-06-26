@@ -5,7 +5,7 @@ import math
 from copy import copy, deepcopy
 
 class Grid:
-    def __init__(self, size):
+    def __init__(self, size, num_targ):
         # create the map
         self.h = size
         self.w = size
@@ -24,14 +24,15 @@ class Grid:
         # fill it with tile objects
         for y in range(1, self.h-1):
             for x in range(1, self.w-1):
-                if randint(1,10000) <= 30:
-                    # how likely there is to be a zombie on any given square
-                    zombies = randint(1,3)
-                else:
-                    zombies = 0
-                pop = [randint(1,100),zombies,0]
                 loc = [x,y]
-                self.grid[x][y] = tile(pop,loc)
+                self.grid[x][y] = tile(False,loc)
+        # fill tiles with targets
+        for m in range(num_targ):
+            loc = [randint(1,self.w-1),randint(1,self.h-1)]
+            while self.grid[loc[0]][loc[1]].hasTarget():
+                loc = [randint(1,self.w-1),randint(1,self.h-1)]
+            self.grid[loc[0]][loc[1]].setTarget(True)
+        #get neighbors of tiles
         for m in range(2):
             for y in range(1, self.h-1):
                 for x in range(1, self.w-1):

@@ -9,11 +9,9 @@ class bordertile(object):
     def __init__(self, loc):
         self.x = loc[0]
         self.y = loc[1]
-        #border tiles are always water
         self.isedge = True
-        self.hum = 0
-        self.zom = 0
-        self.ded = 0
+        self.explored = 0
+        self.hasTarg = False
 
     def color(self):
         return [0, 0, 0]
@@ -30,16 +28,27 @@ class bordertile(object):
     def hzdef(self):
         return 0.0
 
+    def setTarget(self, targ):
+        self.hasTarg = False
+
+    def hasTarget(self):
+        return self.hasTarg
+
 class tile(object):
     '''class for tiles on the map. each tile has a population. sometimes it is water'''
-    def __init__(self, pop, loc):
+    def __init__(self, targ, loc):
         '''initializes each tile with a location, a population, and a water state'''
         self.x = loc[0]
         self.y = loc[1]
         self.isedge = False
-        self.hum = pop[0]
-        self.zom = pop[1]
-        self.ded = pop[2]
+        self.explored = 0
+        self.hasTarg = targ
+
+    def setTarget(self, targ):
+        self.hasTarg = targ
+
+    def hasTarget(self):
+        return self.hasTarg
 
     def hzd(self):
         if self.isedge:
@@ -102,21 +111,22 @@ class tile(object):
         self.right = tilegrid[self.x+1][self.y]
         horiz = [self.left.isedge, self.right.isedge]
         vert = [self.up.isedge, self.down.isedge]
-        #lowpass filter
-        if horiz == [True, True] or vert == [True, True]:
-            if self.isedge == False:
-                self.isedge = True
-        if horiz == [False, False] or vert == [False, False]:
-            if self.isedge == True:
-                self.isedge == False
+        
+##        #lowpass filter
+##        if horiz == [True, True] or vert == [True, True]:
+##            if self.isedge == False:
+##                self.isedge = True
+##        if horiz == [False, False] or vert == [False, False]:
+##            if self.isedge == True:
+##                self.isedge == False
 
-        self.oldHzrat = self.hzrat()
-        self.oldLeftHzrat = self.left.hzrat()
-        self.oldUpHzrat = self.up.hzrat()
-        self.oldRightHzrat = self.right.hzrat()
-        self.oldDownHzrat = self.down.hzrat()
-        self.oldZom = self.zom
-        self.oldHum = self.hum
+##        self.oldHzrat = self.hzrat()
+##        self.oldLeftHzrat = self.left.hzrat()
+##        self.oldUpHzrat = self.up.hzrat()
+##        self.oldRightHzrat = self.right.hzrat()
+##        self.oldDownHzrat = self.down.hzrat()
+##        self.oldZom = self.zom
+##        self.oldHum = self.hum
 
     def popadd(self, pop):
         '''add population from people moving when neighbors run popout()'''
@@ -182,37 +192,12 @@ class tile(object):
 
     def color(self):
         '''generate a color for the tile. to be used in pygame'''
-        if self.isedge:
-            return [105, 105, 105]
+        if self.hasTarg:
+            return [255, 0, 0]
+        elif not self.isedge:
+            return [0,0,255]
         else:
-            red = int(5*self.zom)
-            if red < 0: red = 0
-            if red > 255: red = 255
-            green = int(255*self.hzrat())
-            if green < 0: green = 0
-            if green > 255: green = 255
-            return [red, green, 0]
-
-def main():
-    '''main function. runs on file call.'''
-    initpop = [10, 3, 1]
-    loc = [1, 1]
-    home = tile(initpop, loc)
-    left = tile(initpop, [0, 1])
-    right = tile(initpop, [2, 1])
-    down = tile(initpop, [1, 2])
-    up = tile(initpop, [1, 0])
-    tilegrid = np.array([[0, up, 0],[left,home,right],[0,down,0]])
-    home.findneighbors(tilegrid)
-    print home.hzrat()
-    home.popadd([1,2,1])
-    print home.hzrat()
-    print home.color()
-    x = np.array([[1,2],[3,4]])
-    print x[1]
-
-if __name__ == "__main__":
-    main()
+            return [105,105,105]
 
 
 
