@@ -177,52 +177,6 @@ class tile(object):
         self.right.popadd(rightpop)
         self.popadd(outpop)
 
-    def popout2(self):
-        '''simulates population emigration'''
-        #calculate local ratios
-        selfhzf = self.oldHzrat
-        lefthzf = self.oldLeftHzrat
-        uphzf = self.oldUpHzrat
-        downhzf = self.oldDownHzrat
-        righthzf = self.oldRightHzrat
-        lefthzr = lefthzf - selfhzf
-        uphzr = uphzf - selfhzf
-        downhzr = downhzf - selfhzf
-        righthzr = righthzf - selfhzf
-        hzrlist = [lefthzr, uphzr, downhzr, righthzr]
-        hzrsum = 0
-        for i in xrange(len(hzrlist)):
-            if hzrlist[i] < 0:
-                hzrlist[i] = 0
-            hzrsum += hzrlist[i]
-        if hzrsum < .01: hzrsum = 1
-        #comment on american consumerism
-        leftpop = [.4*hzrlist[0]/hzrsum*self.oldHum, .4*hzrlist[0]/hzrsum*self.oldZom, 0]
-        uppop = [.4*hzrlist[1]/hzrsum*self.oldHum, .4*hzrlist[1]/hzrsum*self.oldZom, 0]
-        downpop = [.4*hzrlist[2]/hzrsum*self.oldHum, .4*hzrlist[2]/hzrsum*self.oldZom, 0]
-        rightpop = [.4*hzrlist[3]/hzrsum*self.oldHum, .4*hzrlist[3]/hzrsum*self.oldZom, 0]
-        if self.left.iswater: leftpop = [0, 0, 0]
-        if self.up.iswater: uppop = [0, 0, 0]
-        if self.down.iswater: downpop = [0, 0, 0]
-        if self.right.iswater: rightpop = [0, 0, 0]
-        outpop = [0, 0, 0]
-        for i in range(3):
-            outpop[i] = -1*(leftpop[i] + uppop[i] + downpop[i] + rightpop[i])
-        # store current variables for next time
-        self.oldHzrat = self.hzrat()
-        self.oldLeftHzrat = self.left.hzrat()
-        self.oldUpHzrat = self.up.hzrat()
-        self.oldRightHzrat = self.right.hzrat()
-        self.oldDownHzrat = self.down.hzrat()
-        self.oldZom = self.zom
-        self.oldHum = self.hum
-        #now increment everything
-        self.left.popadd(leftpop)
-        self.up.popadd(uppop)
-        self.down.popadd(downpop)
-        self.right.popadd(rightpop)
-        self.popadd(outpop)
-
     def hzrat(self):
         '''calculate the human-zombie ratio. used for math later'''
         if False:
