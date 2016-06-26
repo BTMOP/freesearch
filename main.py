@@ -1,6 +1,8 @@
 import pygame
+import random
 from model import Grid
 from view import View
+from uav import Uav
 
 pygame.init()
 
@@ -11,7 +13,7 @@ done = False
 clock = pygame.time.Clock()
 
 # initialize the map (size, num_targets)
-data = Grid(60,10)
+data = Grid(100,10)
 
 # init the view of the map
 view = View(600, data)
@@ -19,6 +21,8 @@ view = View(600, data)
 # max fps at which to run
 fps = 10
 counter = 0
+
+drones = [Uav(random.randint(1,98), random.randint(1,98), data)]
 
 # -------- Main Program Loop -----------
 while not done:
@@ -29,6 +33,17 @@ while not done:
 
     if counter == 0:
         # only update once per second (n ticks)
+        for drone in drones:
+            # give the drones the new map (or maybe don't) and then update
+            # the map based on the drones' movement
+            drone.setMap(data)
+            # move 'em
+            direction = drone.nextStep()
+            drone.setLocation(drone.x + direction[0], drone.y + direction[1])
+            # maybe don't update map based on drone (denied comms)
+            # TODO this *should* be simultaneous
+            data = drone.update()
+
         data.update() # update the map (steps all of the diff. eqs. forward one)
         view.update(data)
 
