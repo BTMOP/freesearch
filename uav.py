@@ -57,11 +57,11 @@ class Uav:
 
         # go from index in the array to an actual direction
         if direction == 0:
-            return [0,-1]
+            return [0,1]
         elif direction == 1:
             return [1,0]
         elif direction == 2:
-            return [0,1]
+            return [0,-1]
         elif direction == 3:
             return [-1,0]
 
@@ -73,16 +73,22 @@ class Uav:
         if tile.isedge == True:
             return False
         adjacent = [tile.up, tile.right, tile.down, tile.left]
-        l =  [tile.up.explored + current_value,
-              tile.right.explored + current_value,
-              tile.down.explored + current_value,
-              tile.left.explored + current_value]
+        l =  [tile.up.explored + current_value*2,
+              tile.right.explored + current_value*2,
+              tile.down.explored + current_value*2,
+              tile.left.explored + current_value*2]
 
 	print l
         m = min(l)
         indices = [i for i, j in enumerate(l) if j == m]
 	print indices
-        return random.choice(indices)
+	
+	try:
+		m = random.choice(m)
+	except: 
+		pass
+
+        return m
 
     def surroundingValues(self):
         return [self.worldMap.grid[self.x][self.y+1],
