@@ -30,6 +30,8 @@ view = View(600, data, drones)
 fps = 10
 counter = 0
 
+raw_input('Press <ENTER> to begin')
+
 # -------- Main Program Loop -----------
 while not done:
     for event in pygame.event.get(): # User did something

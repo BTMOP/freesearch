@@ -65,5 +65,10 @@ class tile(object):
 
     def targColor(self):
         if self.hasTarg and (not self.isedge):
-            red = 70 + 185*self.explored
-            return [red, 0, 0]
+            if self.explored > 0:
+                red = 70 + 185*self.explored
+                blue = 0
+            else:
+                red = 0
+                blue = 30 + 225*self.explored
+            return [red, 0, blue]
