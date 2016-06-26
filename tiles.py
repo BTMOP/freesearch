@@ -15,6 +15,12 @@ class bordertile(object):
     def color(self):
         return [0, 0, 0]
 
+    def targColor(self):
+        return [0,0,0]
+
+    def hasTarget(self):
+        return self.hasTarg
+
 class tile(object):
     '''class for tiles on the map. each tile has a population. sometimes it is water'''
     def __init__(self, targ, loc):
@@ -53,12 +59,11 @@ class tile(object):
 
     def color(self):
         '''generate a color for the tile. to be used in pygame'''
-        if self.hasTarg:
+        if not self.isedge:
+            blue = 30 + 225*self.explored
+            return [0, 0, blue]
+
+    def targColor(self):
+        if self.hasTarg and (not self.isedge):
             red = 70 + 185*self.explored
             return [red, 0, 0]
-        elif not self.isedge:
-            blue = 30 + 225*self.explored
-            return [0,0,blue]
-        else:
-            # return yellow color if there is an error
-            return [255,255,0]
